@@ -71,8 +71,8 @@ class GameViewContoller: UIViewController {
         
         scoreLabel.frame = frame
         scoreLabel.textAlignment = .center
-        scoreLabel.textColor = UIColor.black
-        scoreLabel.backgroundColor =  #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        scoreLabel.textColor = Color.textAlternative
+        scoreLabel.backgroundColor =  Color.scoreBackground
     }
     
     private func setupQuestionLabel() {
@@ -91,8 +91,8 @@ class GameViewContoller: UIViewController {
         
         questionLabel.frame = frame
         questionLabel.numberOfLines = 0
-        questionLabel.textColor = UIColor.white
-        questionLabel.backgroundColor =  #colorLiteral(red: 0, green: 0, blue: 0.1764705882, alpha: 1)
+        questionLabel.textColor = Color.text
+        questionLabel.backgroundColor = Color.background
         questionLabel.layer.cornerRadius = CGFloat(height)/4
         questionLabel.layer.masksToBounds = true
         questionLabel.textAlignment = .center
@@ -137,8 +137,8 @@ class GameViewContoller: UIViewController {
         )
         
         [answerA, answerB, answerC, answerD].forEach { (button) in
-            button.setTitleColor(UIColor.white, for: .normal)
-            button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0.1764705882, alpha: 1)
+            button.setTitleColor(Color.text, for: .normal)
+            button.backgroundColor = Color.elementBackground
             button.layer.cornerRadius = CGFloat(height/2)
             button.layer.borderWidth = 1
             button.layer.borderColor =  #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
@@ -188,10 +188,10 @@ class GameViewContoller: UIViewController {
         )
         
         [halfHintButton, quizHintButton, phoneCallHintButton, tryHintButton].forEach { (button) in
-            button.setTitleColor(UIColor.white, for: .normal)
-            button.tintColor = UIColor.white
+            button.setTitleColor(Color.text, for: .normal)
+            button.tintColor = Color.text
             button.layer.cornerRadius = CGFloat(height/2)
-            button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0.1764705882, alpha: 1)
+            button.backgroundColor = Color.elementBackground
         }
         
         halfHintButton.setImage(UIImage(named: "half"), for: .normal)
@@ -334,7 +334,7 @@ class GameViewContoller: UIViewController {
             questionLabel.text = question.text
             for (i, button) in [answerA, answerB, answerC, answerD].enumerated() {
                 button.setTitle(question.answers[i], for: .normal)
-                button.backgroundColor =  #colorLiteral(red: 0, green: 0, blue: 0.1764705882, alpha: 1)
+                button.backgroundColor = Color.elementBackground
             }
         } else {
             win()
@@ -395,145 +395,3 @@ class GameViewContoller: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
-//import UIKit
-//import Foundation
-//
-//class GameViewController: UIViewController {
-//
-//    @IBOutlet weak var LabelNameQuestion: UILabel!
-//    @IBOutlet weak var answerA: UIButton!
-//    @IBOutlet weak var answerB: UIButton!
-//    @IBOutlet weak var answerC: UIButton!
-//    @IBOutlet weak var answerD: UIButton!
-//
-//    @IBOutlet weak var scoreLabel: UILabel!
-//
-//    var money: Int = 50000 // start from: 50 000
-//    var secondLife: Bool = false
-//    var questions: [Question] = []
-//    weak var gameSessionDelegate: GameSession?
-//
-//    init(questions: [Question], gameSesson: GameSession) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.questions = questions
-//        self.gameSessionDelegate = gameSesson
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init() has not been implemented")
-//    }
-//
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        fillGameData()
-//    }
-//
-//
-//    // MARK: - Включение/выключение кнопок
-//
-//    private func disableButtons() {
-//        [answerA, answerB, answerC, answerD].forEach { (button) in
-//            button?.isEnabled = false
-//            button?.isUserInteractionEnabled = false
-//        }
-//    }
-//
-//    private func enableButtons() {
-//        guard Game.shared.session != nil else { return }
-//        [answerA, answerB, answerC, answerD].forEach { (button) in
-//            button?.isEnabled = true
-//            button?.isUserInteractionEnabled = true
-//        }
-//    }
-////        for hintButton in session.usedHints {
-////            switch hintButton {
-////            case .half:
-////                halfHintButton.isEnabled = false
-////                halfHintButton.isUserInteractionEnabled = false
-////            case .quiz:
-////                quizHintButton.isEnabled = false
-////                quizHintButton.isUserInteractionEnabled = false
-////            case .phoneCall:
-////                phoneCallHintButton.isEnabled = false
-////                phoneCallHintButton.isUserInteractionEnabled = false
-////            case .tryToAnswer:
-////                tryHintButton.isEnabled = false
-////                tryHintButton.isUserInteractionEnabled = false
-////            }
-////        }
-////    }
-//
-//    // MARK: - Основная логика
-//
-//    private func fillGameData() {
-//        guard let gameSession = gameSessionDelegate else { return }
-//        let currentQuestionIndex = gameSession.correctAnswers
-//        if currentQuestionIndex < questions.count {
-//            let question = questions[currentQuestionIndex]
-//
-//            scoreLabel?.text = "Вопрос №\(currentQuestionIndex+1). Сумма: \(money) ₽"
-//            LabelNameQuestion?.text = question.text
-//            for (i, button) in [answerA, answerB, answerC, answerD].enumerated() {
-//                button?.setTitle(question.answers[i], for: .normal)
-//                button?.backgroundColor = UIColor.cyan
-//            }
-//        } else {
-//            win()
-//        }
-//    }
-//
-//    private func win() {
-//        showAlert(title: "Победа!", message: "Поздравляем, Вы ответили правильно на все вопросы.", actionHandler: backToMenu(_:))
-//        Game.shared.end(with: .win)
-//    }
-//
-//    private func lose() {
-//        showAlert(title: "Поражение!", message: "К сожалению вы правильно ответили только на \(gameSessionDelegate?.correctAnswers ?? 0) вопросов из \(gameSessionDelegate?.questionsCount ?? 0). Попробуйте еще раз?", actionHandler: backToMenu(_:))
-//        Game.shared.end(with: .lose)
-//
-//    }
-//
-//    private func correctAnswer() {
-//        gameSessionDelegate?.correctAnswers += 1
-//        gameSessionDelegate?.score = money
-//        money *= 2
-//        fillGameData()
-//        enableButtons()
-//    }
-//
-//    // MARK: - Action - нажатие на кнопку с ответом
-//
-//    @objc func answerTapped(sender: UIButton!) {
-//        guard let gameSession = gameSessionDelegate else { return }
-//        let currentQuestionIndex = gameSession.correctAnswers
-//
-//        if currentQuestionIndex < questions.count &&
-//            sender.titleLabel?.text == questions[currentQuestionIndex].correctAnswer {
-//            sender.backgroundColor = .green
-//            disableButtons()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//                guard let self = self else { return }
-//                self.correctAnswer()
-//            }
-//        } else if secondLife {
-//            sender.backgroundColor = .red
-//            sender.isEnabled = false
-//            sender.isUserInteractionEnabled = false
-//        } else {
-//            sender.backgroundColor = .red
-//            disableButtons()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//                guard let self = self else { return }
-//                self.lose()
-//            }
-//        }
-//        secondLife = false
-//    }
-//    // MARK: - Action Handler для Alert
-//
-//    private func backToMenu(_: UIAlertAction) {
-//        self.dismiss(animated: true, completion: nil)
-//    }
-//}

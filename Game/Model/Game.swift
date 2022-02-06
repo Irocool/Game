@@ -15,9 +15,17 @@ enum GameResultState {
 class Game {
     static var shared = Game()
     var session: GameSession?
+    var questionsMode: QuestionsOrder {
+        didSet {
+            questionsModeCaretaker.saveMode(mode: questionsMode)
+        }
+    }
     private let resultsCaretaker = ResultsCaretaker()
+    private let questionsModeCaretaker = QuestionModeCaretaker()
     
-    private init() {}
+    private init() {
+        questionsMode = questionsModeCaretaker.loadMode()
+    }
     
     private(set) lazy var results: [GameResult] = {
        return resultsCaretaker.loadResults()
@@ -48,15 +56,9 @@ enum Hints {
     case tryToAnswer
 }
 
-class GameSession {
-    var date: Date = Date()
-    var correctAnswers: Int = 0  // Количество правильных ответов
-    var questionsCount: Int
-    var score: Int = 0           // Количество денег
-    var usedHints: [Hints] = []  // Использованные подсказки
-    
-    init(questionsCount: Int) {
-        self.questionsCount = questionsCount
-    }
+enum Notifications: String {
+    case currentQuestion = "CurrentQuestionChanged"
 }
+
+
 

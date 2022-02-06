@@ -15,21 +15,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ButtonSettings(_ sender: UIButton) {
-    }
+   }
     
-    @IBAction func ButtonClear(_ sender: UIButton) {
-    }
+   // @IBAction func ButtonClear(_ sender: UIButton) {
+   // }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = Color.background
     }
 
+    
     // MARK: - Action-ы кнопок
 
     @IBAction func battonPlayTapped(_ sender: UIButton!) {
     
-        let questions = QuestionsStorage.shared.getData
+        let questions = QuestionsInOrderFacade().get()
         let gameSession = GameSession(questionsCount: questions.count)
         Game.shared.session = gameSession
         
@@ -39,15 +40,19 @@ class ViewController: UIViewController {
     }
     
     @IBAction func ButtonSettingsTapped(_ sender: UIButton) {
+        let settingsVC = SettingsViewController()
+        
+        self.present(settingsVC, animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func ButtonResultTapped(_ sender: UIButton) {
         let resultsVC = ResultsTableViewController()
         
         self.present(resultsVC, animated: true, completion: nil)
+        
     }
     
-    @IBAction func ButtonClearTapped(_ sender: UIButton) {
-        Game.shared.clearResults()
-        showAlert(title: "Результаты", message: "Статистика очищена.")
-    }
     
 }
 
